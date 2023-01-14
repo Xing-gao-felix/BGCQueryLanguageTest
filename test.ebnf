@@ -1,15 +1,34 @@
-start : condition (boolean condition)* ->query
+?start : statement
 
-condition : condition_feild "=" value
+statement: querykeyword querytype wherekeyword wherefullcondition+ 
+    | querykeyword querytype
 
-condition_feild : "keyword"
-    | 
+querytype: data
+ 
+data: "BGC" | "bgc" | "Bgc"
+
+wherekeyword: "WHERE" | "where" | "Where"
+querykeyword: "QUERY" | "query" | "Query"
+
+wherefullcondition: wherefullcondition booleanandconjunction wherefullcondition
+    | condition
+
+
+condition : condition_feild equal value
+    | gene_condition equal gene 
+
+condition_feild : "test1"
+    | "test2"
+gene_condition : "gene_condition"
+
 
 value : NUMBER
     |gene
 
 gene : /[ACGTU]+/
+equal : "="
 
+booleanandconjunction : "and" | "AND"
 boolean: "and"
     | "or"
     | "not"
@@ -19,3 +38,4 @@ boolean: "and"
 %import common.WS_INLINE
 
 %ignore WS_INLINE
+
