@@ -1,0 +1,21 @@
+start : condition (boolean condition)* ->query
+
+condition : condition_feild "=" value
+
+condition_feild : "keyword"
+    | 
+
+value : NUMBER
+    |gene
+
+gene : /[ACGTU]+/
+
+boolean: "and"
+    | "or"
+    | "not"
+
+%import common.CNAME -> NAME
+%import common.NUMBER -> NUMBER
+%import common.WS_INLINE
+
+%ignore WS_INLINE
