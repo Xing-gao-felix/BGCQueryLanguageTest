@@ -15,27 +15,43 @@ wherefullcondition: wherefullcondition booleanandconjunction wherefullcondition
 
 
 condition : condition_feild equal value
-    | gene_condition equal gene 
+    // | gene_condition equal gene 
+    | domain_condition equal domain_value
+    | enzyme_condition equal enzyme_value
 
 condition_feild : "test1"
     | "test2"
-gene_condition : "gene_condition"
+
+// gene_condition : "gene_condition"
+domain_condition: "DOMAIN" | "domain"
+enzyme_condition: "ENZYME" | "enzyme"
 
 
 value : NUMBER
     |gene
+domain_value: "dv1" 
+    | "dv2"
+    | "(" domain_value (booleanorconjunction domain_value)+ ")"
+    | domain_value (":" domain_value )+
+enzyme_value : gene
+    | sequencematch
+    | gene ":" evalue ":" mismatch
+
+    evalue : ["evalue"|"test"] [greaterthan|lessthan] NUMBER
+    mismatch : "mismatch" equal NUMBER
+    sequencematch : "sequencematch" "(" gene "," evalue "," mismatch ")"
+
 
 gene : /[ACGTU]+/
 equal : "="
+greaterthan : ">"
+lessthan : "<"
 
 booleanandconjunction : "and" | "AND"
-boolean: "and"
-    | "or"
-    | "not"
+booleanorconjunction : "or" | "OR"
 
 %import common.CNAME -> NAME
-%import common.NUMBER -> NUMBER
-%import common.WS_INLINE
-
-%ignore WS_INLINE
-
+%import common.ESCAPED_STRING   -> STRING
+%import common.SIGNED_NUMBER    -> NUMBER
+%import common.WS
+%ignore WS
