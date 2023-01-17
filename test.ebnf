@@ -16,19 +16,38 @@ wherefullcondition: wherefullcondition booleanandconjunction wherefullcondition
 
 condition : condition_feild equal value
     // | gene_condition equal gene 
-    | domain_condition equal domain_value
+    // | domain_condition equal domain_value
+    | taxonomy_condition equal taxonomy_value
     | enzyme_condition equal enzyme_value
 
-condition_feild : "test1"
-    | "test2"
-
-// gene_condition : "gene_condition"
-domain_condition: "DOMAIN" | "domain"
+condition_feild : "test1" -> test1
+    | "test2" -> test2
+    | "BGC type" -> bgc_type
+    | "compound" -> compound
+taxonomy_condition : species
+    | genus
+    | family
+    | order
+    | class
+    | phylum
+    | kingdom
+    | superkingdom
+    species : "species"
+    genus : "genus"
+    family : "family"
+    order : "order"
+    class : "class"
+    phylum : "phylum"
+    kingdom : "kingdom"
+    superkingdom : "domain" | "DOMAIN" | "superkingdom" 
 enzyme_condition: "ENZYME" | "enzyme"
 
 
-value : NUMBER
+value : NUMBER 
+    | NAME
     |gene
+taxonomy_value: NAME
+    |"("
 domain_value: "dv1" 
     | "dv2"
     | "(" domain_value (booleanorconjunction domain_value)+ ")"
@@ -36,7 +55,6 @@ domain_value: "dv1"
 enzyme_value : gene
     | sequencematch
     | gene ":" evalue ":" mismatch
-
     evalue : ["evalue"|"test"] [greaterthan|lessthan] NUMBER
     mismatch : "mismatch" equal NUMBER
     sequencematch : "sequencematch" "(" gene "," evalue "," mismatch ")"
